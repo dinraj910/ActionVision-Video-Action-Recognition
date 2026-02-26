@@ -1,0 +1,62 @@
+# =============================================================
+# docker-compose.yml – Local development / self-hosted deployment
+# =============================================================
+# Usage:
+#   docker-compose up --build
+#
+# Environment:
+#   Copy backend/.env.example → backend/.env before running.
+# =============================================================
+
+version: "3.9"
+
+services:
+  # ── FastAPI backend ─────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: actionvision_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - PORT=8000
+      - MODEL_PATH=model/final_video_action_model.keras
+      - LABELS_PATH=model/class_labels.txt
+      # Allow requests from the frontend container and localhost
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:80,http://frontend
+    volumes:
+      # Mount the model directory from the host so you can
+      # swap models without rebuilding the image.
+      - ./model:/app/model:ro
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s   # allow time for TF to load the model
+
+  # ── React frontend ──────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: actionvision_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      # Nginx rewrites /predict and /health to the backend container;
+      # set this to a public URL when deploying to the cloud.
+      - VITE_API_URL=http://backend:8000
+
+networks:
+  default:
+    name: actionvision_net
