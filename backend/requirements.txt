@@ -1,0 +1,20 @@
+# ============================================================
+# ActionVision – Backend Dependencies
+# ============================================================
+# Pin major versions; patch versions float for security fixes.
+# Tested on Python 3.11.
+# ============================================================
+
+# ── Web framework ─────────────────────────────────────────
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+gunicorn==22.0.0
+python-multipart==0.0.9        # required for FastAPI file uploads
+
+# ── ML / CV ───────────────────────────────────────────────
+tensorflow==2.16.1
+opencv-python-headless==4.9.0.80   # headless: no GUI dependencies (Docker-safe)
+numpy==1.26.4
+
+# ── Utilities ─────────────────────────────────────────────
+python-dotenv==1.0.1           # .env file support
