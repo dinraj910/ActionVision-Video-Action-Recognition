@@ -5,3 +5,6 @@
 *.pt
 *.pth
 *.onnx
+*.pb
+*.tflite
+*.venv
