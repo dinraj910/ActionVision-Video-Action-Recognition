@@ -1,189 +1,316 @@
 /* =============================================================
-   App.css – Layout and shared component styles
+   App.css – Custom styles layered on Bootstrap 5
    ============================================================= */
 
-/* ── Page shell ───────────────────────────────────────────── */
-.app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* ── Navbar ───────────────────────────────────────────────── */
+.av-navbar {
+  background: linear-gradient(135deg, #0d1117 0%, #1c2333 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 0.85rem 0;
 }
 
-/* ── Header ───────────────────────────────────────────────── */
-.header {
-  background-color: var(--color-accent);
+.av-navbar .navbar-brand {
+  font-size: 1.35rem;
+  font-weight: 700;
   color: #ffffff;
-  padding: 1rem 2rem;
+  letter-spacing: -0.3px;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  box-shadow: var(--shadow);
+  gap: 0.5rem;
 }
 
-.header__logo {
-  font-size: 1.5rem;
+.av-navbar .navbar-brand .brand-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.av-navbar .nav-badge {
+  font-size: 0.7rem;
+  background: rgba(79,70,229,0.2);
+  color: #a5b4fc;
+  border: 1px solid rgba(79,70,229,0.3);
+  border-radius: 20px;
+  padding: 0.15rem 0.55rem;
+  font-weight: 500;
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.av-hero {
+  background: linear-gradient(135deg, #0d1117 0%, #1c2333 60%, #0d1117 100%);
+  padding: 3.5rem 0 2.5rem;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.av-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(79,70,229,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 50%, rgba(124,58,237,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.av-hero__title {
+  font-size: 2.2rem;
   font-weight: 700;
   letter-spacing: -0.5px;
+  margin-bottom: 0.75rem;
 }
 
-.header__tagline {
-  font-size: 0.8rem;
-  opacity: 0.65;
-  font-family: var(--font-mono);
+.av-hero__title span {
+  background: linear-gradient(90deg, #818cf8, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* ── Main content ─────────────────────────────────────────── */
-.main {
-  flex: 1;
-  max-width: 900px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 3rem;
-}
-
-/* ── Hero section ─────────────────────────────────────────── */
-.hero {
-  margin-bottom: 2rem;
-}
-
-.hero__title {
-  font-size: 1.6rem;
-  font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
-}
-
-.hero__description {
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
-  max-width: 560px;
+.av-hero__subtitle {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.6);
+  max-width: 520px;
   line-height: 1.65;
-}
-
-.hero__meta {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-top: 0.75rem;
-}
-
-.badge {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  font-size: 0.73rem;
-  font-family: var(--font-mono);
-  color: var(--color-text-muted);
-  background: var(--color-surface);
-}
-
-/* ── Tab switcher ─────────────────────────────────────────── */
-.tab-bar {
-  display: flex;
-  gap: 0;
-  border-bottom: 2px solid var(--color-border);
   margin-bottom: 1.5rem;
 }
 
-.tab-btn {
-  padding: 0.65rem 1.25rem;
-  background: none;
+.av-hero .tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.75rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+}
+
+/* ── Main layout ──────────────────────────────────────────── */
+.av-main {
+  padding: 2rem 0 4rem;
+}
+
+/* ── Card overrides ───────────────────────────────────────── */
+.av-card {
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.04);
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.av-card-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1a1d2e;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ── Nav tabs override ────────────────────────────────────── */
+.av-tabs .nav-link {
+  color: #6c757d;
+  font-weight: 500;
+  font-size: 0.9rem;
   border: none;
   border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
+  border-radius: 0;
+  padding: 0.75rem 1.25rem;
   transition: color 0.15s, border-color 0.15s;
 }
 
-.tab-btn:hover {
-  color: var(--color-text-primary);
+.av-tabs .nav-link:hover {
+  color: #1a1d2e;
+  border-color: transparent;
 }
 
-.tab-btn--active {
-  color: var(--color-accent);
-  border-bottom-color: var(--color-accent);
+.av-tabs .nav-link.active {
+  color: #4f46e5;
+  border-bottom-color: #4f46e5;
+  background: transparent;
+  font-weight: 600;
 }
 
-/* ── Card ─────────────────────────────────────────────────── */
-.card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
+/* ── Drop zone ────────────────────────────────────────────── */
+.av-dropzone {
+  border: 2px dashed #dee2e6;
+  border-radius: 10px;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  background: #fafbfc;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.av-dropzone:hover,
+.av-dropzone--active {
+  border-color: #4f46e5;
+  background-color: #f0f0ff;
+}
+
+.av-dropzone__icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.5rem;
+  color: #4f46e5;
+}
+
+.av-dropzone__title {
+  font-weight: 600;
+  color: #1a1d2e;
+  margin-bottom: 0.3rem;
+}
+
+.av-dropzone__hint {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* ── Video preview ────────────────────────────────────────── */
+.av-video-preview {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  background: #000;
+  max-height: 320px;
+  display: block;
+}
+
+/* ── Progress bar override ────────────────────────────────── */
+.av-progress {
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #e9ecef;
+}
+
+.av-progress-bar {
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  transition: width 0.25s ease;
+}
+
+/* ── Result card ──────────────────────────────────────────── */
+.av-result {
+  border-left: 4px solid #4f46e5;
+}
+
+.av-result__action {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1d2e;
+  letter-spacing: -0.5px;
+}
+
+.av-confidence-bar .progress {
+  height: 10px;
+  border-radius: 5px;
+  background: #e9ecef;
+}
+
+.av-confidence-bar .progress-bar {
+  border-radius: 5px;
+}
+
+/* ── Stat pills ───────────────────────────────────────────── */
+.av-stat {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  text-align: center;
+}
+
+.av-stat__label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6c757d;
+  font-weight: 600;
+  margin-bottom: 0.1rem;
+}
+
+.av-stat__value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1d2e;
+  font-family: 'SFMono-Regular', Consolas, monospace;
+}
+
+/* ── Camera status dot ────────────────────────────────────── */
+.av-rec-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #dc3545;
+  display: inline-block;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
 }
 
 /* ── Footer ───────────────────────────────────────────────── */
-.footer {
-  text-align: center;
-  padding: 1.25rem;
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
-  border-top: 1px solid var(--color-border);
-  font-family: var(--font-mono);
+.av-footer {
+  background: #0d1117;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
-/* ── Shared button styles ─────────────────────────────────── */
-.btn {
+.av-footer a {
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+}
+
+.av-footer a:hover {
+  color: rgba(255,255,255,0.8);
+}
+
+/* ── Sidebar info panel ───────────────────────────────────── */
+.av-info-card {
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.av-class-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1.2rem;
-  border: 1px solid transparent;
-  border-radius: var(--radius);
-  font-size: 0.9rem;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  background: #f0f0ff;
+  border: 1px solid #e0e7ff;
+  border-radius: 20px;
+  font-size: 0.78rem;
   font-weight: 500;
-  transition: background-color 0.15s, opacity 0.15s;
-}
-
-.btn--primary {
-  background-color: var(--color-accent);
-  color: #fff;
-}
-
-.btn--primary:hover:not(:disabled) {
-  background-color: var(--color-accent-hover);
-}
-
-.btn--primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn--secondary {
-  background-color: transparent;
-  color: var(--color-text-primary);
-  border-color: var(--color-border);
-}
-
-.btn--secondary:hover:not(:disabled) {
-  background-color: var(--color-bg);
-}
-
-.btn--danger {
-  background-color: var(--color-error);
-  color: #fff;
-}
-
-.btn--danger:hover:not(:disabled) {
-  opacity: 0.88;
+  color: #4f46e5;
 }
 
 /* ── Responsive ───────────────────────────────────────────── */
-@media (max-width: 600px) {
-  .header {
-    padding: 0.9rem 1rem;
-  }
-  .header__tagline {
-    display: none;
-  }
-  .main {
-    padding: 1.25rem 1rem 2rem;
-  }
-  .hero__title {
-    font-size: 1.3rem;
-  }
+@media (max-width: 575px) {
+  .av-hero__title { font-size: 1.6rem; }
+  .av-hero { padding: 2rem 0 1.5rem; }
 }
+

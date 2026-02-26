@@ -1,15 +1,25 @@
 // src/components/LoadingSpinner.jsx
-// Displays a CSS-only spinner with an optional status message.
+// Bootstrap 5 spinner with status label.
 import './LoadingSpinner.css';
 
-/**
- * @param {{ label?: string }} props
- */
 export default function LoadingSpinner({ label = 'Analysing video…' }) {
   return (
-    <div className="spinner-overlay" role="status" aria-label={label}>
-      <div className="spinner" />
-      <span className="spinner-label">{label}</span>
+    <div
+      className="d-flex align-items-center gap-3 p-4 mt-4 av-card"
+      role="status"
+      aria-label={label}
+    >
+      <div
+        className="spinner-border flex-shrink-0"
+        style={{ color: '#4f46e5', width: '2rem', height: '2rem' }}
+      >
+        <span className="visually-hidden">Loading…</span>
+      </div>
+      <div>
+        <div className="fw-semibold text-dark" style={{ fontSize: '0.95rem' }}>{label}</div>
+        <div className="text-muted small">This may take a few seconds…</div>
+      </div>
     </div>
   );
 }
+

@@ -1,17 +1,22 @@
 // src/components/ErrorMessage.jsx
-// Renders a styled error box for API and validation errors.
+// Bootstrap 5 alert for API and validation errors.
 import './ErrorMessage.css';
 
-/**
- * @param {{ message: string }} props
- */
 export default function ErrorMessage({ message }) {
   if (!message) return null;
 
   return (
-    <div className="error-box" role="alert">
-      <span className="error-box__icon" aria-hidden="true">⚠</span>
-      <p className="error-box__text">{message}</p>
+    <div
+      className="alert alert-danger d-flex align-items-start gap-3 mt-4"
+      role="alert"
+      style={{ borderRadius: 10, borderLeft: '4px solid #dc3545' }}
+    >
+      <i className="bi bi-exclamation-octagon-fill fs-5 flex-shrink-0 mt-1"></i>
+      <div>
+        <div className="fw-semibold mb-1">Something went wrong</div>
+        <div className="small">{message}</div>
+      </div>
     </div>
   );
 }
+

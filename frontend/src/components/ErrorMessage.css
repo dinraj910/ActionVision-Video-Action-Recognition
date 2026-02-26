@@ -1,26 +1,2 @@
-/* =============================================================
-   ErrorMessage.css
-   ============================================================= */
-
-.error-box {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  padding: 0.9rem 1rem;
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: var(--radius);
-  color: var(--color-error);
-  font-size: 0.875rem;
-  margin-top: 1rem;
-}
-
-.error-box__icon {
-  flex-shrink: 0;
-  font-size: 1rem;
-  margin-top: 1px;
-}
-
-.error-box__text {
-  line-height: 1.5;
-}
+﻿/* ErrorMessage.css – Minimal; Bootstrap handles styling */
+/* All custom classes use av-* prefixes in App.css */

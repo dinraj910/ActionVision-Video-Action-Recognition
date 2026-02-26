@@ -1,14 +1,12 @@
 // src/components/VideoUploader.jsx
-// -----------------------------------------------------------------------
 // Handles video file selection via drag-and-drop or file dialog.
-// Shows a native <video> preview and an upload progress indicator.
-// -----------------------------------------------------------------------
+// Fully styled with Bootstrap 5 + custom av-* classes.
 
 import { useRef, useState, useCallback } from 'react';
+// CSS file kept but now minimal – real styling via Bootstrap + App.css
 import './VideoUploader.css';
 
-// Max file size enforced on the client before making the API call (100 MB)
-const MAX_FILE_BYTES = 100 * 1024 * 1024;
+const MAX_FILE_BYTES = 100 * 1024 * 1024; // 100 MB
 
 const ACCEPTED_TYPES = [
   'video/mp4',
@@ -19,31 +17,20 @@ const ACCEPTED_TYPES = [
   'video/x-matroska',
 ];
 
-/**
- * Format bytes as a human-readable string.
- * @param {number} bytes
- */
 function formatBytes(bytes) {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 ** 2) return `${(bytes / 1024).toFixed(1)} KB`;
+  if (bytes < 1024)        return `${bytes} B`;
+  if (bytes < 1024 ** 2)   return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / 1024 ** 2).toFixed(1)} MB`;
 }
 
-/**
- * @param {{
- *   onSubmit: (file: File, onProgress: (n: number) => void) => Promise<void>,
- *   loading: boolean,
- * }} props
- */
 export default function VideoUploader({ onSubmit, loading }) {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [previewUrl, setPreviewUrl]     = useState(null);
-  const [dragActive, setDragActive]     = useState(false);
-  const [fileError, setFileError]       = useState('');
-  const [uploadPct, setUploadPct]       = useState(0);
+  const [previewUrl,   setPreviewUrl]   = useState(null);
+  const [dragActive,   setDragActive]   = useState(false);
+  const [fileError,    setFileError]    = useState('');
+  const [uploadPct,    setUploadPct]    = useState(0);
 
-  // ── File validation & state update ─────────────────────────────────────
   const applyFile = useCallback((file) => {
     setFileError('');
     setUploadPct(0);
@@ -53,26 +40,20 @@ export default function VideoUploader({ onSubmit, loading }) {
       return;
     }
     if (file.size > MAX_FILE_BYTES) {
-      setFileError(`File is too large (${formatBytes(file.size)}). Maximum allowed: 100 MB.`);
+      setFileError(`File too large (${formatBytes(file.size)}). Maximum: 100 MB.`);
       return;
     }
-
-    // Revoke any previous object URL to avoid memory leaks
     if (previewUrl) URL.revokeObjectURL(previewUrl);
-
     setSelectedFile(file);
     setPreviewUrl(URL.createObjectURL(file));
   }, [previewUrl]);
 
-  // ── Input change ────────────────────────────────────────────────────────
   const handleInputChange = (e) => {
     const file = e.target.files?.[0];
     if (file) applyFile(file);
-    // Reset input so the same file can be re-selected after clearing
     e.target.value = '';
   };
 
-  // ── Drag-and-drop handlers ──────────────────────────────────────────────
   const handleDragOver  = (e) => { e.preventDefault(); setDragActive(true);  };
   const handleDragLeave = (e) => { e.preventDefault(); setDragActive(false); };
   const handleDrop      = (e) => {
@@ -82,7 +63,6 @@ export default function VideoUploader({ onSubmit, loading }) {
     if (file) applyFile(file);
   };
 
-  // ── Clear selection ─────────────────────────────────────────────────────
   const handleClear = () => {
     if (previewUrl) URL.revokeObjectURL(previewUrl);
     setSelectedFile(null);
@@ -91,20 +71,18 @@ export default function VideoUploader({ onSubmit, loading }) {
     setUploadPct(0);
   };
 
-  // ── Submit ─────────────────────────────────────────────────────────────
   const handleSubmit = async () => {
     if (!selectedFile || loading) return;
     setUploadPct(0);
     await onSubmit(selectedFile, setUploadPct);
   };
 
-  // ── Render ──────────────────────────────────────────────────────────────
   return (
     <div>
-      {/* Drop zone – clicking it triggers the hidden file input */}
+      {/* ── Drop zone ───────────────────────────────────────────────── */}
       {!selectedFile && (
         <div
-          className={`uploader__dropzone${dragActive ? ' uploader__dropzone--active' : ''}`}
+          className={`av-dropzone${dragActive ? ' av-dropzone--active' : ''}`}
           onClick={() => fileInputRef.current?.click()}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -114,11 +92,13 @@ export default function VideoUploader({ onSubmit, loading }) {
           aria-label="Click or drag to upload a video file"
           onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
         >
-          <div className="uploader__icon" aria-hidden="true">📁</div>
-          <p className="uploader__prompt">
+          <div className="av-dropzone__icon">
+            <i className="bi bi-cloud-arrow-up-fill"></i>
+          </div>
+          <p className="av-dropzone__title mb-1">
             <strong>Click to browse</strong> or drag &amp; drop your video here
           </p>
-          <p className="uploader__hint">MP4 · AVI · MOV · WebM · MKV — max 100 MB</p>
+          <p className="av-dropzone__hint mb-0">MP4 · AVI · MOV · WebM · MKV — max 100 MB</p>
         </div>
       )}
 
@@ -127,62 +107,69 @@ export default function VideoUploader({ onSubmit, loading }) {
         ref={fileInputRef}
         type="file"
         accept="video/*"
-        className="uploader__input"
+        className="d-none"
         onChange={handleInputChange}
         tabIndex={-1}
       />
 
       {/* Client-side validation error */}
       {fileError && (
-        <p style={{ color: 'var(--color-error)', fontSize: '0.85rem', marginTop: '0.5rem' }}>
-          ⚠ {fileError}
-        </p>
+        <div className="alert alert-warning d-flex align-items-center gap-2 mt-2 py-2 px-3 small">
+          <i className="bi bi-exclamation-triangle-fill"></i>
+          {fileError}
+        </div>
       )}
 
       {/* Video preview */}
       {previewUrl && (
-        <div className="uploader__preview">
-          <p className="uploader__preview-label">Preview</p>
+        <div className="mt-2">
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video
-            className="uploader__video"
+            className="av-video-preview mb-2"
             src={previewUrl}
             controls
             aria-label="Selected video preview"
           />
-          <div className="uploader__file-info">
-            <span>{selectedFile.name}</span>
-            <span>{formatBytes(selectedFile.size)}</span>
+          <div className="d-flex justify-content-between align-items-center text-muted small px-1">
+            <span><i className="bi bi-file-earmark-play me-1"></i>{selectedFile.name}</span>
+            <span className="badge bg-secondary bg-opacity-25 text-dark">{formatBytes(selectedFile.size)}</span>
           </div>
         </div>
       )}
 
       {/* Upload progress bar */}
       {loading && uploadPct > 0 && uploadPct < 100 && (
-        <div className="uploader__progress">
-          <div className="uploader__progress-track">
-            <div className="uploader__progress-fill" style={{ width: `${uploadPct}%` }} />
+        <div className="mt-3">
+          <div className="d-flex justify-content-between small text-muted mb-1">
+            <span>Uploading…</span>
+            <span>{uploadPct}%</span>
           </div>
-          <p className="uploader__progress-text">Uploading… {uploadPct}%</p>
+          <div className="av-progress">
+            <div className="av-progress-bar" style={{ width: `${uploadPct}%` }}></div>
+          </div>
         </div>
       )}
 
       {/* Action buttons */}
       {selectedFile && (
-        <div className="uploader__actions">
+        <div className="d-flex gap-2 mt-3">
           <button
-            className="btn btn--primary"
+            className="btn btn-primary px-4"
+            style={{ background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', border: 'none' }}
             onClick={handleSubmit}
             disabled={loading}
           >
-            {loading ? 'Running inference…' : 'Predict Action'}
+            {loading
+              ? <><span className="spinner-border spinner-border-sm me-2" role="status"></span>Running…</>
+              : <><i className="bi bi-lightning-charge-fill me-2"></i>Predict Action</>
+            }
           </button>
           <button
-            className="btn btn--secondary"
+            className="btn btn-outline-secondary"
             onClick={handleClear}
             disabled={loading}
           >
-            Clear
+            <i className="bi bi-trash me-1"></i>Clear
           </button>
         </div>
       )}
