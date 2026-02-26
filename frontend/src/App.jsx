@@ -66,7 +66,7 @@ export default function App() {
       <header className="header">
         <span className="header__logo">ActionVision</span>
         <span className="header__tagline">
-          Real-Time Video Action Recognition · MobileNetV2 + GRU · UCF-101
+          Real-Time Video Action Recognition · MobileNetV2 + GRU · UCF-101 (5 classes)
         </span>
       </header>
 
@@ -82,7 +82,7 @@ export default function App() {
           <div className="hero__meta">
             <span className="badge">MobileNetV2 + GRU</span>
             <span className="badge">16 frames uniform sampling</span>
-            <span className="badge">UCF-101 · 15 classes</span>
+            <span className="badge">UCF-101 · 5 classes</span>
             <span className="badge">FastAPI backend</span>
           </div>
         </section>

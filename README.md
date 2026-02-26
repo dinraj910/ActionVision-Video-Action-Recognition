@@ -1,6 +1,6 @@
 # ActionVision – Real-Time Video Action Recognition System
 
-> **MobileNetV2 + GRU** · **FastAPI** · **React (Vite)** · **UCF-101 (15 classes)**
+> **MobileNetV2 + GRU** · **FastAPI** · **React (Vite)** · **UCF-101 (5 classes)**
 
 A production-ready full-stack application that classifies human actions in short video clips.  
 Upload a file or record directly from your webcam; the model returns the action label and confidence score in real time.
@@ -37,7 +37,7 @@ FastAPI  (Uvicorn / Gunicorn)
 ```
 
 - **Backend**: FastAPI + Uvicorn/Gunicorn, single-worker to avoid duplicate model loads.
-- **Model**: trained on 15 UCF-101 classes; input shape `(1, 16, 224, 224, 3)`.
+- **Model**: trained on 5 UCF-101 classes; input shape `(1, 16, 224, 224, 3)`.
 - **Frontend**: React 18 (Vite 5), zero framework deps – plain CSS custom properties.
 - **Deployment**: Docker Compose (backend + Nginx-served frontend).
 
@@ -89,10 +89,10 @@ Action Vision/
 |------------------|-------------------------------------|
 | Architecture     | TimeDistributed(MobileNetV2) + GRU  |
 | Input shape      | (batch, 16, 224, 224, 3)            |
-| Dataset          | UCF-101 (first 15 classes)          |
+| Dataset          | UCF-101 (5-class subset)                |
 | Frame sampling   | Uniform segment-based (deterministic)|
 | Normalization    | Divide by 255 → [0, 1]              |
-| Output           | Softmax over 15 classes             |
+| Output           | Softmax over 5 classes              |
 | File format      | `.keras` (TF 2.x SavedModel wrapper)|
 
 ---
@@ -235,7 +235,7 @@ docker compose up -d --build
 ### `GET /health`
 
 ```json
-{ "status": "ok", "model_loaded": true, "num_classes": 15 }
+{ "status": "ok", "model_loaded": true, "num_classes": 5 }
 ```
 
 ### `POST /predict`
@@ -288,25 +288,15 @@ Field: `file` — video file (MP4, AVI, MOV, WebM, MKV)
 
 ## Supported Action Classes
 
-The model is trained on the **first 15 UCF-101 classes** (sorted alphabetically):
+The model is trained on **5 UCF-101 classes**:
 
 | Index | Class               |
 |-------|---------------------|
-| 0     | ApplyEyeMakeup      |
-| 1     | ApplyLipstick       |
-| 2     | Archery             |
-| 3     | BabyCrawling        |
-| 4     | BalanceBeam         |
-| 5     | BandMarching        |
-| 6     | BaseballPitch       |
-| 7     | Basketball          |
-| 8     | BasketballDunk      |
-| 9     | BenchPress          |
-| 10    | Biking              |
-| 11    | Billiards           |
-| 12    | BlowDryHair         |
-| 13    | BlowingCandles      |
-| 14    | BodyWeightSquats    |
+| 0     | CricketShot         |
+| 1     | PlayingCello        |
+| 2     | Punch               |
+| 3     | ShavingBeard        |
+| 4     | TennisSwing         |
 
 To add more classes, retrain with a larger subset and update `class_labels.txt`.
 

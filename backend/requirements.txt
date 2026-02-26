@@ -13,6 +13,7 @@ python-multipart==0.0.9        # required for FastAPI file uploads
 
 # ── ML / CV ───────────────────────────────────────────────
 tensorflow==2.16.1
+tf-keras==2.16.0                   # Keras 2 compatibility shim for models trained with TF ≤ 2.15
 opencv-python-headless==4.9.0.80   # headless: no GUI dependencies (Docker-safe)
 numpy==1.26.4
 
