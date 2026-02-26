@@ -14,3 +14,6 @@
 # Ignore frontend node modules and build artifacts
 frontend/node_modules/
 frontend/dist/
+
+# Ignore samplevideos
+samplevideos/
