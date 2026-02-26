@@ -8,3 +8,9 @@
 *.pb
 *.tflite
 *.venv
+*.node_modules
+*.env
+
+# Ignore frontend node modules and build artifacts
+frontend/node_modules/
+frontend/dist/
