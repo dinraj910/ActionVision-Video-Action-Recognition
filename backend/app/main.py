@@ -131,7 +131,11 @@ async def predict(file: UploadFile = File(...)):
     500 – Unexpected internal error
     """
     # ── 1. Validate content type ───────────────────────────────────────
-    if file.content_type not in ALLOWED_CONTENT_TYPES:
+    # Extract base MIME type (before ';' parameter like codecs)
+    # e.g., 'video/webm;codecs=vp9' → 'video/webm'
+    base_content_type = file.content_type.split(';')[0].strip()
+    
+    if base_content_type not in ALLOWED_CONTENT_TYPES:
         raise HTTPException(
             status_code=400,
             detail=(
